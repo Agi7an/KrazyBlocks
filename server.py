@@ -2,7 +2,6 @@ import socket
 import threading
 from player import Player
 import pickle
-import signal
 
 server = "127.1.0.0"
 port = 5555
@@ -22,14 +21,8 @@ print("Waiting for a connection...")
 
 players = [
     Player(0, 0, 50, 50, (255, 0, 0)),
-    Player(100, 100, 50, 50, (0, 0, 255)),
-    Player(100, 0, 50, 50, (0, 255, 0)),
-    Player(0, 100, 50, 50, (255, 255, 0)),
-    Player(200, 200, 50, 50, (255, 0, 255))
+    Player(100, 100, 50, 50, (0, 0, 255))
 ]
-
-currentPlayer = 0
-threads = []
 
 
 def threaded_client(conn, player):
@@ -46,12 +39,12 @@ def threaded_client(conn, player):
                 break
             # Sends other player's details
             else:
-                for i in range(5):
-                    if i != player:
-                        reply = players[i]
-                        print(i, reply)
-                        conn.sendall(pickle.dumps(reply))
-                print("\n")
+                if player == 1:
+                    reply = players[0]
+                else:
+                    reply = players[1]
+
+            conn.sendall(pickle.dumps(reply))
 
         except:
             break
@@ -60,7 +53,10 @@ def threaded_client(conn, player):
     conn.close()
 
 
-while currentPlayer < 5:
+currentPlayer = 0
+threads = []
+
+while currentPlayer < 2:
     conn, addr = s.accept()
     print("Connected to:", addr)
 
