@@ -6,7 +6,8 @@ HEIGHT = 500
 
 class Player():
 
-    def __init__(self, x, y, _width, _height, colour):
+    def __init__(self, id, x, y, _width, _height, colour):
+        self.id = id
         self.x = x
         self.y = y
         self.width = _width
@@ -24,6 +25,10 @@ class Player():
 
     def move(self):
         keys = pygame.key.get_pressed()
+
+        # if (self.x >= enemy.x and self.x <= enemy.x + enemy.width
+        #         and self.y + self.height >= enemy.y):
+        #     self.y -= 50
 
         if keys[pygame.K_LEFT]:
             if self.x > 0:

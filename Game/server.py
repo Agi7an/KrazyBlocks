@@ -5,6 +5,7 @@ import pickle
 
 server = "127.1.0.0"
 port = 5555
+winner = []
 
 # Creating a socket instance
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,8 +21,8 @@ s.listen(2)
 print("Waiting for a connection...")
 
 players = [
-    Player(350, 350, 50, 50, (255, 0, 0)),
-    Player(100, 100, 50, 50, (0, 0, 255))
+    Player(1, 350, 350, 50, 50, (255, 0, 0)),
+    Player(2, 100, 100, 50, 50, (0, 0, 255))
 ]
 
 
@@ -40,8 +41,12 @@ def threaded_client(conn, player):
             # Sends other player's details
             else:
                 if player == 1:
+                    if data.alive == False:
+                        winner.append(0)
                     reply = players[0]
                 else:
+                    if data.alive == False:
+                        winner.append(1)
                     reply = players[1]
 
             conn.sendall(pickle.dumps(reply))
@@ -69,5 +74,10 @@ while currentPlayer < 2:
 
 for thread in threads:
     thread.join()
+
+if winner[0] == 0:
+    print("\nRed is the winner!\n")
+else:
+    print("\nBlue is the winner!\n")
 s.close()
 print("Server Closed")
