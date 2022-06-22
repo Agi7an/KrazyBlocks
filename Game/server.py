@@ -20,7 +20,7 @@ s.listen(2)
 print("Waiting for a connection...")
 
 players = [
-    Player(0, 0, 50, 50, (255, 0, 0)),
+    Player(350, 350, 50, 50, (255, 0, 0)),
     Player(100, 100, 50, 50, (0, 0, 255))
 ]
 

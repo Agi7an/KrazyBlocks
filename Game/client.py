@@ -27,6 +27,9 @@ def main():
         # Send this player's details(this client) and receive other player's details through the server
         e = n.send(p)
 
+        if (p.alive == False or e.alive == False):
+            run = False
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
